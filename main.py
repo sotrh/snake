@@ -1,6 +1,6 @@
 #!/usr/share/python
 
-from game import Game
+from common.game import Game
 
 game = Game(640, 480)
 game.run()

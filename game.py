@@ -1,5 +1,7 @@
 import pygame
 
+from ..entity import snake
+
 class Game:
 	
 	def __init__(self, width, height):
@@ -7,6 +9,8 @@ class Game:
 		self.screen = pygame.display.set_mode((width, height))
 		self.clock = pygame.time.Clock()
 		self.clear_color = (0, 0, 0)
+		self.snake = Snake(3, (0,0), Snake.DIR_RIGHT)
+		self.snake_color = (255, 255, 0)
 
 	def process_input(self):
 		for event in pygame.event.get():
@@ -16,6 +20,9 @@ class Game:
 
 	def draw(self):
 		self.screen.fill(self.clear_color)
+
+		draw_snake(self.screen, self.snake, self.snake_color, 20)
+
 		pygame.display.flip()
 
 	def run(self):
