@@ -32,10 +32,8 @@ class Snake:
 			num_fruits -= 1
 
 	def move(self):
-		vel = Snake._DIRECTIONS[self._direction]
-		pos = self._body[-1]
-		
-		self._body.append((pos[0] + vel[0], pos[1] + vel[1]))
+		next_pos = self.get_next_pos()
+		self._body.append(next_pos)
 		self._body.popleft()
 
 	def valid_direction(self, direction):
@@ -50,3 +48,15 @@ class Snake:
 	def set_direction(self, direction):
 		if self.valid_direction(direction):
 			self._direction = direction
+
+	def get_head(self):
+		return self._body[-1]
+
+	def get_tail(self):
+		return self._body[0]
+
+	def get_next_pos(self):
+		vel = Snake._DIRECTIONS[self._direction]
+		pos = self.get_head()
+
+		return (pos[0] + vel[0], pos[1] + vel[1])
