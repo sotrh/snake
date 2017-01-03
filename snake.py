@@ -28,7 +28,7 @@ class Snake:
 
 	def eat(self, num_fruits):
 		while num_fruits > 0:
-			self._body.append(self._body[0])
+			self._body.appendleft(self._body[0])
 			num_fruits -= 1
 
 	def move(self):
