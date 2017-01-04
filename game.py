@@ -20,6 +20,9 @@ class Game:
 		self._scale = 20
 
 		self._field = Field(height / self._scale, self._scale)
+		self._field_pos = \
+			((width - self._field.get_scaled_size()) / 2, \
+			 (height - self._field.get_scaled_size()) / 2)
 
 	def pause(self):
 		self._state = State.PAUSED
@@ -49,7 +52,7 @@ class Game:
 
 	def draw(self):
 		self._screen.fill(self._clear_color)
-		self._field.draw(self._screen)
+		self._field.draw(self._screen, self._field_pos)
 		pygame.display.flip()
 
 	def run(self):

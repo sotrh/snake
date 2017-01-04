@@ -25,6 +25,9 @@ class Snake:
 		self._direction = start_direction
 
 		self.eat(start_length - 1)
+		
+	def __contains__(self, pos):
+		return pos in self._body
 
 	def eat(self, num_fruits):
 		while num_fruits > 0:
@@ -35,6 +38,7 @@ class Snake:
 		next_pos = self.get_next_pos()
 		self._body.append(next_pos)
 		self._body.popleft()
+
 
 	def valid_direction(self, direction):
 		if direction == -1: return False

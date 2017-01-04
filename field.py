@@ -21,7 +21,7 @@ class Field:
 		self._snake_color = (255, 255, 0)
 
 		self._fruit_dict = {}
-		self._max_fruits = 10
+		self._max_fruits = 3
 		self._fruit_collected = 0
 		self._chance_to_spawn_fruit = 0.1
 
@@ -49,9 +49,12 @@ class Field:
 	def spawn_fruit(self):
 		if len(self._fruit_dict) < self._max_fruits \
 			and random.random() < self._chance_to_spawn_fruit:
-			x = random.randrange(self._size)
-			y = random.randrange(self._size)
-			self._fruit_dict[x, y] = 1 # bigger numbers = more snake length	
+			pos = (random.randrange(self._size), random.randrange(self._size))
+
+			while pos in self._fruit_dict or pos in self._snake:
+				pos = (random.randrange(self._size), random.randrange(self._size))
+
+			self._fruit_dict[pos] = 1 # bigger numbers = more snake length	
 
 	def move_snake(self):
 		self._snake.set_direction(self._desired_direction)
@@ -65,13 +68,16 @@ class Field:
 		# actually move
 		self._snake.move()
 
-	def draw(self, screen):
+	def draw(self, screen, pos):
 		self._surface.fill(self._clear_color)
 		self.draw_fruit()
 		draw_snake(self._surface, self._snake, self._snake_color, self._scale)
 
-		screen.blit(self._surface, (0, 0))
+		screen.blit(self._surface, pos)
 
 	def draw_fruit(self):
 		for x, y in self._fruit_dict:
 			pygame.draw.rect(self._surface, (255, 0, 0), pygame.Rect(x * self._scale, y * self._scale, self._scale, self._scale))
+
+	def get_scaled_size(self):
+		return self._size * self._scale
