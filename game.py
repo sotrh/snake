@@ -18,21 +18,39 @@ class Game:
 		self._clock = pygame.time.Clock()
 		self._clear_color = (64, 64, 64)
 		self._scale = 20
+		self._width = width
+		self._height = height
 
-		self._field = Field(height / self._scale, self._scale)
+		self._field = Field(self, height / self._scale, self._scale)
 		self._field_pos = \
 			((width - self._field.get_scaled_size()) / 2, \
 			 (height - self._field.get_scaled_size()) / 2)
 
 	def pause(self):
-		self._state = State.PAUSED
+		if self._state != State.GAME_OVER and self._state != State.STOPPED:
+			self._state = State.PAUSED
 
 	def unpause(self):
 		if self._state != State.STOPPED and self._state != State.GAME_OVER:
 			self._state = State.RUNNING
 
+	def game_over(self):
+		if self._state != State.STOPPED and self._state != State.PAUSED:
+			self._state = State.GAME_OVER
+
 	def quit(self):
 		self._state = State.STOPPED
+
+	def restart(self):
+		del self._field
+		del self._field_pos
+
+		self._field = Field(self, self._height / self._scale, self._scale)
+		self._field_pos = \
+			((self._width - self._field.get_scaled_size()) / 2, \
+			 (self._height - self._field.get_scaled_size()) / 2)
+
+		self._state = State.RUNNING
 
 	def update(self):
 		for event in pygame.event.get():
@@ -46,6 +64,7 @@ class Game:
 				if event.key == pygame.K_SPACE:
 					if self._state == State.RUNNING: self.pause()
 					elif self._state == State.PAUSED: self.unpause()
+					elif self._state == State.GAME_OVER: self.restart()
 
 		if self._state == State.RUNNING:
 			self._field.update();

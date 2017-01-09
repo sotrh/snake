@@ -6,7 +6,8 @@ from snake import draw_snake
 
 class Field:
 
-	def __init__(self, size, scale):
+	def __init__(self, game, size, scale):
+		self._game = game
 		self._size = size
 		self._scale = scale
 
@@ -24,6 +25,10 @@ class Field:
 		self._max_fruits = 3
 		self._fruit_collected = 0
 		self._chance_to_spawn_fruit = 0.1
+
+	def __contains__(self, pos):
+		x, y = pos
+		return 0 <= x < self._size and 0 <= y < self._size
 
 	def update(self):
 		self.process_input()
@@ -58,9 +63,14 @@ class Field:
 
 	def move_snake(self):
 		self._snake.set_direction(self._desired_direction)
+		next_pos = self._snake.get_next_pos()
+
+		# assert that the snake can move forward
+		if not (next_pos in self) or next_pos in self._snake:
+			self._game.game_over()
+			return
 
 		# determine if moving will consume a fruit
-		next_pos = self._snake.get_next_pos()
 		if next_pos in self._fruit_dict:
 			self._snake.eat(self._fruit_dict[next_pos])
 			del self._fruit_dict[next_pos]
