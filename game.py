@@ -24,14 +24,14 @@ class Game:
 		self._height = height
 
 		# game over text
-		self._font_game_over = pygame.font.Font(None, 30)
-		self._label_game_over = self._font_game_over.render("Game Over!", True, (255, 255, 255))
+		self._font_game_over = pygame.font.Font("res/fonts/VCR_OSD_MONO_1.001.ttf", 30)
+		self._label_game_over = self._font_game_over.render("Game Over!", False, (255, 255, 255))
 		label_width, label_height = self._label_game_over.get_size()
 		self._label_game_over_pos = (width / 2 - label_width / 2, height / 2 - label_height / 2)
 
 		# continue text
-		self._font_continue = pygame.font.Font(None, 20)
-		self._label_contine = self._font_continue.render("Press [SPACE] to Play Again", True, (255, 255, 255))
+		self._font_continue = pygame.font.Font("res/fonts/VCR_OSD_MONO_1.001.ttf", 20)
+		self._label_contine = self._font_continue.render("Press [SPACE] to Play Again", False, (255, 255, 255))
 		spacing = label_height + 10
 		label_width, label_height = self._label_contine.get_size()
 		self._label_contine_pos = (width / 2 - label_width / 2, height / 2 - label_height / 2 + spacing)
