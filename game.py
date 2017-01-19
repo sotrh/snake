@@ -4,7 +4,8 @@ import random
 from enum import Enum
 from field import Field
 
-pygame.init()
+pygame.mixer.pre_init(44100, -16, 2, 2048) # setup mixer to avoid sound lag
+pygame.init()                      #initialize pygame
 	
 class State(Enum):
 	STOPPED   = 0
@@ -15,6 +16,7 @@ class State(Enum):
 class Game:
 
 	def __init__(self, width, height):
+
 		self._state = State.RUNNING
 		self._screen = pygame.display.set_mode((width, height))
 		self._clock = pygame.time.Clock()
@@ -36,6 +38,7 @@ class Game:
 		label_width, label_height = self._label_contine.get_size()
 		self._label_contine_pos = (width / 2 - label_width / 2, height / 2 - label_height / 2 + spacing)
 
+		# the game field
 		self._field = Field(self, height / self._scale, self._scale)
 		self._field_pos = \
 			((width - self._field.get_scaled_size()) / 2, \

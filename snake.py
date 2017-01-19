@@ -1,3 +1,4 @@
+import os
 import pygame
 from collections import deque
 
@@ -23,13 +24,15 @@ class Snake:
 		self._length = start_length
 		self._body = deque([start_pos])
 		self._direction = start_direction
+		self._eat_sound = pygame.mixer.Sound("res/sound/126422__cabeeno-rossley__level-up.wav")
 
-		self.eat(start_length - 1)
+		self.eat(start_length - 1, False)
 		
 	def __contains__(self, pos):
 		return pos in self._body
 
-	def eat(self, num_fruits):
+	def eat(self, num_fruits, play_sound=True):
+		if play_sound: self._eat_sound.play()
 		while num_fruits > 0:
 			self._body.appendleft(self._body[0])
 			num_fruits -= 1
